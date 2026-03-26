@@ -31,16 +31,12 @@ public class PlayerMotor : MonoBehaviour
             rigidbody2D.linearVelocityX = -maxSpeed;
         }
 
-        NewMethod();
-
-    }
-
-    private void NewMethod()
-    {
         if (direction.x == 0 && rigidbody2D.linearVelocityX != 0)
         {
             rigidbody2D.AddForce(new Vector2(-rigidbody2D.linearVelocityX * stoppingForce, 0));
         }
+
+        
     }
 
     private void OnMove(InputValue value)
