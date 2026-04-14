@@ -13,10 +13,14 @@ public class PlayerHealth : MonoBehaviour
     public delegate void HealthChangedHandler(float newhealth, float amountChanged);
     public event HealthChangedHandler OnHealthChanged;
 
+    public delegate void HealthInitializedHandler (float newhealth);
+    public event HealthInitializedHandler OnHealthInitialized;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Health = MaxHealth;
+        OnHealthInitialized?.Invoke(Health);
     }
 
     // Update is called once per frame
@@ -27,6 +31,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void AddDamage(float damage)
     {
+ 
         if (canReceiveDamage)
         {
             Health -= damage;
