@@ -9,12 +9,16 @@ public class PlayerHealth : MonoBehaviour
     private float Health;
     private bool canReceiveDamage = true;
     public float invicibilityTimer = 2;
+    private float Coins;
 
     public delegate void HealthChangedHandler(float newhealth, float amountChanged);
     public event HealthChangedHandler OnHealthChanged;
 
     public delegate void HealthInitializedHandler (float newhealth);
     public event HealthInitializedHandler OnHealthInitialized;
+
+    public delegate void CoinChangedHandler(float addcoin);
+    public event CoinChangedHandler OnCoinChanged;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -61,5 +65,12 @@ public class PlayerHealth : MonoBehaviour
         Health += addhealth;
         OnHealthChanged?.Invoke(Health, addhealth);
         Debug.Log(Health);
+    }
+
+    public void CoinAmount(float addcoin)
+    {
+        Coins += addcoin;
+        OnCoinChanged?.Invoke(Coins);
+        Debug.Log(Coins);
     }
 }
