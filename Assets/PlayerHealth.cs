@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 
@@ -10,6 +11,7 @@ public class PlayerHealth : MonoBehaviour
     private bool canReceiveDamage = true;
     public float invicibilityTimer = 2;
     private float Coins;
+    private bool Dead = false;
 
     public delegate void HealthChangedHandler(float newhealth, float amountChanged);
     public event HealthChangedHandler OnHealthChanged;
@@ -30,7 +32,11 @@ public class PlayerHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Health <= 0 && !Dead)
+        {
+            Dead = true;
+            Die();
+        }
     }
 
     public void AddDamage(float damage)
@@ -72,5 +78,10 @@ public class PlayerHealth : MonoBehaviour
         Coins += addcoin;
         OnCoinChanged?.Invoke(Coins);
         Debug.Log(Coins);
+    }
+
+    void Die()
+    {
+        SceneManager.LoadScene("ded");
     }
 }

@@ -6,7 +6,8 @@ public class PlayerMotor : MonoBehaviour
 {
     Vector2 direction;
     private Rigidbody2D rigidbody2D;
-    private bool canJump = true;
+    private int jumpCount = 0;
+    public int maxJumps = 2; 
     public float maxSpeed = 10;
     public float stoppingForce = 5;
     public float speed = 10;
@@ -46,16 +47,15 @@ public class PlayerMotor : MonoBehaviour
 
     private void OnJump()
     {
-        if (canJump)
+        if (jumpCount < maxJumps)
         {
             rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            canJump = false;
+            jumpCount++;
         }
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        canJump = true;
+        jumpCount = 0;
     }
 }
