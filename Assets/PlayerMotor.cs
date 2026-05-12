@@ -1,43 +1,51 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
+using System.Collections;
 
 public class PlayerMotor : MonoBehaviour
 {
     Vector2 direction;
-    private Rigidbody2D rigidbody2D;
+    private Rigidbody2D rb; // Skrócona nazwa dla wygody
+
+    private bool canDash = true;
+    private bool isDashing = false; 
+    private float lastDirectionX = 1;
+
     private int jumpCount = 0;
-    public int maxJumps = 2; 
+    public int maxJumps = 2;
     public float maxSpeed = 10;
     public float stoppingForce = 5;
     public float speed = 10;
     public float jumpForce = 10;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    public float dashForce = 20;
+    public float dashDuration = 0.2f; 
+    public float dashCooldown = 1f;
+
     private void Start()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
-    // Update is called once per frame
+
     private void FixedUpdate()
     {
-        rigidbody2D.AddForce(new Vector2(direction.x * speed, 0));
+        // Jeœli dashujemy, wychodzimy z FixedUpdate, ¿eby nie nak³adaæ si³ ruchu
+        if (isDashing) return;
 
-        if (rigidbody2D.linearVelocityX >= maxSpeed)
+        // Logika zapamiêtywania ostatniego kierunku (do dasha w miejscu)
+        if (direction.x != 0) lastDirectionX = Mathf.Sign(direction.x);
+
+        // Standardowe poruszanie
+        rb.AddForce(new Vector2(direction.x * speed, 0));
+
+        // Clamp prêdkoœci
+        rb.linearVelocityX = Mathf.Clamp(rb.linearVelocityX, -maxSpeed, maxSpeed);
+
+        // Hamowanie
+        if (direction.x == 0 && rb.linearVelocityX != 0)
         {
-            rigidbody2D.linearVelocityX = maxSpeed;
+            rb.AddForce(new Vector2(-rb.linearVelocityX * stoppingForce, 0));
         }
-
-        else if (rigidbody2D.linearVelocityX <= -maxSpeed)
-        {
-            rigidbody2D.linearVelocityX = -maxSpeed;
-        }
-
-        if (direction.x == 0 && rigidbody2D.linearVelocityX != 0)
-        {
-            rigidbody2D.AddForce(new Vector2(-rigidbody2D.linearVelocityX * stoppingForce, 0));
-        }
-
-        
     }
 
     private void OnMove(InputValue value)
@@ -49,13 +57,50 @@ public class PlayerMotor : MonoBehaviour
     {
         if (jumpCount < maxJumps)
         {
-            rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            rb.linearVelocityY = 0; // Opcjonalne: reset prêdkoœci Y dla lepszego feelingu double jumpa
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             jumpCount++;
         }
     }
 
+    private void OnDash()
+    {
+        if (canDash)
+        {
+            StartCoroutine(PerformDash());
+        }
+    }
+
+    private IEnumerator PerformDash()
+    {
+        canDash = false;
+        isDashing = true;
+
+        // Zapamiêtujemy oryginaln¹ grawitacjê, by j¹ przywróciæ
+        float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0f;
+
+        // Wybieramy kierunek
+        float dashDir = direction.x != 0 ? Mathf.Sign(direction.x) : lastDirectionX;
+
+        // Zamiast AddForce, ustawiamy prêdkoœæ bezpoœrednio, by mieæ pe³n¹ kontrolê
+        rb.linearVelocity = new Vector2(dashDir * dashForce, 0f);
+
+        // Czekamy a¿ dash siê skoñczy
+        yield return new WaitForSeconds(dashDuration);
+
+        // Przywracamy stan sprzed dasha
+        rb.gravityScale = originalGravity;
+        isDashing = false;
+
+        // Cooldown
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // Prosta logika resetu skoku na kolizji
         jumpCount = 0;
     }
 }

@@ -54273,6 +54273,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8617121602315087443, guid: 99d810e249654ee4086aa91600da37c2, type: 3}
+      propertyPath: dashForce
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617121602315087443, guid: 99d810e249654ee4086aa91600da37c2, type: 3}
       propertyPath: jumpForce
       value: 8
       objectReference: {fileID: 0}
