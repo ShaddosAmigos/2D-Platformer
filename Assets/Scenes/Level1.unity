@@ -54221,12 +54221,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1593883713690816295, guid: 99d810e249654ee4086aa91600da37c2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593883713690816295, guid: 99d810e249654ee4086aa91600da37c2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593883713690816295, guid: 99d810e249654ee4086aa91600da37c2, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593883713690816295, guid: 99d810e249654ee4086aa91600da37c2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.31
+      value: 0.71
       objectReference: {fileID: 0}
     - target: {fileID: 1593883713690816295, guid: 99d810e249654ee4086aa91600da37c2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.62
+      value: -0.87
       objectReference: {fileID: 0}
     - target: {fileID: 1593883713690816295, guid: 99d810e249654ee4086aa91600da37c2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -54260,9 +54272,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1593883713690816295, guid: 99d810e249654ee4086aa91600da37c2, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1871767286446320747, guid: 99d810e249654ee4086aa91600da37c2, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 130edd694aadd294b8cc22e4b67602f4, type: 2}
     - target: {fileID: 4943603994712661934, guid: 99d810e249654ee4086aa91600da37c2, type: 3}
       propertyPath: m_Constraints
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264630571142476184, guid: 99d810e249654ee4086aa91600da37c2, type: 3}
+      propertyPath: m_Size.x
+      value: 0.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264630571142476184, guid: 99d810e249654ee4086aa91600da37c2, type: 3}
+      propertyPath: m_Size.y
+      value: 0.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264630571142476184, guid: 99d810e249654ee4086aa91600da37c2, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.02
       objectReference: {fileID: 0}
     - target: {fileID: 8617121602315087443, guid: 99d810e249654ee4086aa91600da37c2, type: 3}
       propertyPath: speed
